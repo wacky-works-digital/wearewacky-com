@@ -53,5 +53,11 @@ async function submitToIndexNow() {
   }
 }
 
-submitToIndexNow();
-
+// wearewacky.com is now served by wearewacky-com-redesign, which submits its own
+// sitemap. This retired site must not ping IndexNow for the live domain on every
+// build, so submission is opt-in only.
+if (process.env.INDEXNOW_SUBMIT === "1") {
+  submitToIndexNow();
+} else {
+  console.log("IndexNow skipped: retired site (set INDEXNOW_SUBMIT=1 to submit).");
+}
